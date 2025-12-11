@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
-from schemas.order_items import OrderItemSchema
-from sqlalchemy import select
+from schemas.order_schema import OrderItemSchema
+from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 from dependencies import connect_to_db
-from models.order_items import OrderItems
+from models.order_model import OrderItems
 from models.foods import Foods
 
 order_items_router = APIRouter(prefix="/order_items", tags=["Order Items"])
@@ -11,15 +11,14 @@ order_items_router = APIRouter(prefix="/order_items", tags=["Order Items"])
 
 @order_items_router.get("/")
 def get_all_order_items(dbs: Session = Depends(connect_to_db)):
-    statement = (
-        select(OrderItems.id, Foods.food_name, OrderItems.quantity, Foods.price)
-        .select_from(Foods)
-        .join(OrderItems, Foods.id == OrderItems.food_id)
-    )
-    print(statement)
+    raw_quary = """SELECT order_itmes.id, foods.food_name, food_price, order_items.quantity
+    from order_item
+    join foods
+    on foods.id = order_item.food_id;"""
+    print(raw_quary)
     
     # running raw query
-    all_items = dbs.execute(statement=statement)
+    all_items = dbs.execute(text(raw_quary))
     print(all_items)
     
     # ?? Option-2
@@ -44,7 +43,9 @@ def create_an_order_item(
     new_dish: OrderItemSchema, dbs: Session = Depends(connect_to_db)
 ):
     entry = OrderItems(
-        quantity=new_dish.quantity, order_id=new_dish.order_id, food_id=new_dish.food_id
+        quantity=new_dish.quantity, 
+        order_id=new_dish.order_id, 
+        food_id=new_dish.food_id
     )
 
     # insert row

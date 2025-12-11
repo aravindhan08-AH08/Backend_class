@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from dependencies import connect_to_db
 from models.orders import Orders
-from models.order_items import OrderItems
+from models.order_model import OrderItems
 from schemas.orders import OrderSchema
 
 orders_router = APIRouter(prefix="/orders", tags=["Orders"])

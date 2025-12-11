@@ -25,7 +25,7 @@ def get_all_foods(id: int, dbs: Session = Depends(connect_to_db)):
 
 # POST
 @food_router.post("/")
-def get_all_foods(new_food: Foods_schema, dbs: Session = Depends(connect_to_db)):
+def create_food(new_food: Foods_schema, dbs: Session = Depends(connect_to_db)):
 
     some_food_name = new_food.food_name
     some_price = new_food.price
@@ -49,7 +49,7 @@ def get_all_foods(new_food: Foods_schema, dbs: Session = Depends(connect_to_db))
 
 # PUT
 @food_router.put("/{id}")
-def get_all_foods(
+def update_food_by_id(
     latest_food: Foods_schema, id: int, dbs: Session = Depends(connect_to_db)
 ):
     some_food_name = latest_food.food_name
@@ -66,10 +66,10 @@ def get_all_foods(
     particular_food.qty = some_qty
     particular_food.availability = something_avl
     # return
-    return ""
+    return {"messgae":"updated successfully"}
 
 #DELETE
-@food_router.delete("/")
-def get_all_foods(id:int):
+@food_router.delete("/{id}")
+def delete_food_by_id(id:int):
     return {"message":""}
 

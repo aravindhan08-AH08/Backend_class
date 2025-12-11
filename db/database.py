@@ -2,11 +2,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from core.config import USERNAME, PASSWORD , HOSTNAME, DATABASE, PORT
 
-print(USERNAME)
-print(PASSWORD)
-print(HOSTNAME)
-print(DATABASE)
-print(PORT)
+# print(USERNAME)
+# print(PASSWORD)
+# print(HOSTNAME)
+# print(DATABASE)
+# print(PORT)
 
 DB_USERNAME = "postgres"
 DB_PASSWORD = "AcademyRootPassword"

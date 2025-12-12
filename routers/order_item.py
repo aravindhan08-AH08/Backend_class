@@ -9,8 +9,8 @@ from models.foods import Foods
 order_items_router = APIRouter(prefix="/order_items", tags=["Order Items"])
 
 
-@order_items_router.get("/")
-def get_all_order_items(dbs: Session = Depends(connect_to_db)):
+@order_items_router.get("/{order_id}")
+def get_all_order_items(order_id: int, dbs: Session = Depends(connect_to_db)):
     raw_quary = """SELECT order_itmes.id, foods.food_name, food_price, order_items.quantity
     from order_item
     join foods
@@ -19,7 +19,6 @@ def get_all_order_items(dbs: Session = Depends(connect_to_db)):
     
     # running raw query
     all_items = dbs.execute(text(raw_quary))
-    print(all_items)
     
     # ?? Option-2
     # all_items = dbs.query(OrderItems).join(Foods).all()
@@ -27,10 +26,10 @@ def get_all_order_items(dbs: Session = Depends(connect_to_db)):
 
     result = []
     # Destructuring Each Tuple in the Row
-    for id, food_name, quantity, price in all_items:
+    for id, food_name, price, qty in all_items:
         temp = {
             "id": id,
-            "quantity": quantity,
+            "qty": qty,
             "food_name": food_name,
             "price": price,
         }

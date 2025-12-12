@@ -2,7 +2,7 @@ from sqlalchemy import Column,Integer,String
 from db.database import Base
 
 class Restaurant(Base):
-    __tablename__ = "restaurant"
+    __tablename__ = "restaurants"
 
     id = Column(Integer,primary_key = True, index=True)
     restaurant_name = Column(String)

@@ -17,7 +17,7 @@ def get_all_foods(dbs: Session = Depends(connect_to_db)):
 
 # GET {id}
 @food_router.get("/{id}")
-def get_all_foods(id: int, dbs: Session = Depends(connect_to_db)):
+def get_food_by_id(id: int, dbs: Session = Depends(connect_to_db)):
     particular_food = dbs.query(Foods).filter(Foods.id == id).first()
     if not particular_food:
         return {"message": "Invalid Id"}
@@ -65,8 +65,8 @@ def update_food_by_id(
     particular_food.price = some_price
     particular_food.qty = some_qty
     particular_food.availability = something_avl
-    # return
-    return {"messgae":"updated successfully"}
+    # r
+    return {"message": "updated successfully"}
 
 #DELETE
 @food_router.delete("/{id}")

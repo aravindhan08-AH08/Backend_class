@@ -3,16 +3,16 @@ from sqlalchemy.orm import Session
 from dependencies import connect_to_db
 from models.restaurant_model import Restaurant
 from schemas.restaurant_schema import RestaurantCreate
-router=APIRouter(
+restaurant_router=APIRouter(
     prefix="/restaurant",
     tags=["Restaurant"]
 )
-@router.get("/")
+@restaurant_router.get("/")
 def get_all_restaurant(dbs:Session=Depends(connect_to_db)):
     restaurant=dbs.query(Restaurant).all()
     return restaurant
 
-@router.get("/{id}")
+@restaurant_router.get("/{id}")
 def get_restaurant_by_id(id:int,dbs:Session=Depends(connect_to_db)):
     restaurants=dbs.query(Restaurant).filter(Restaurant.id==id).first()
     if not restaurants:
@@ -20,7 +20,7 @@ def get_restaurant_by_id(id:int,dbs:Session=Depends(connect_to_db)):
     return restaurants
 
 
-@router.post ("/")
+@restaurant_router.post ("/")
 def create_restaurant(rest:RestaurantCreate,db:Session=Depends(connect_to_db)):
     val=Restaurant(
         restaurant_name=rest.restaurant_name,
@@ -34,7 +34,7 @@ def create_restaurant(rest:RestaurantCreate,db:Session=Depends(connect_to_db)):
     return val
 
 
-@router.put("/{id}")
+@restaurant_router.put("/{id}")
 def edit_restaurant(id:int,res_update:RestaurantCreate,dbs:Session=Depends(connect_to_db)):
     res_new=dbs.query(Restaurant).filter(Restaurant.id==id).first()
     if not res_new:
@@ -47,7 +47,8 @@ def edit_restaurant(id:int,res_update:RestaurantCreate,dbs:Session=Depends(conne
     dbs.refresh(res_new)
     return {"message":"Restaurant update","data":res_new}
 
-@router.delete("/{id}")
+# Delete
+@restaurant_router.delete("/{id}")
 def delete_res(id:int,dbs:Session=Depends(connect_to_db)):
     res=dbs.query(Restaurant).filter(Restaurant.id==id).first()
     if not res:

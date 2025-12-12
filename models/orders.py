@@ -14,5 +14,5 @@ class Orders(Base):
     user_id = Column(Integer, ForeignKey("customers.id"))
     rest_id = Column(Integer, ForeignKey("restaurants.id"))
     # relationship with parent table
-    customer = relationship("Customers")
-    restaurants = relationship("Restaurants")
+    customer = relationship("customers")
+    restaurants = relationship("restaurants")
